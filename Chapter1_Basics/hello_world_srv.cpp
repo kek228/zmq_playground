@@ -5,7 +5,10 @@
 #include <unistd.h>
 #include <string.h>
 #include <assert.h>
+//
 #include <atomic>
+#include <iostream>
+#include <stdexcept>
 
 std::atomic_bool stop;
 
@@ -20,9 +23,11 @@ int main (void)
     while (!stop) {
         char buffer [10];
         zmq_recv (responder, buffer, 10, 0);
-        printf ("Received Hello\n");
+        const std::string rec = std::string(buffer);
+        std::cout<<"Received: "<<rec<<std::endl;
         sleep (1);          //  Do some 'work'
-        zmq_send (responder, "World", 5, 0);
+        const std::string repl = "reply for " + rec;
+        zmq_send (responder, repl.data(), repl.size(), 0);
     }
     return 0;
 }

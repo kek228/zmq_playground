@@ -27,6 +27,7 @@ int main (int argc, char *argv [])
     //  Subscribe to zipcode, default is NYC, 10001
     const char *filter = "zipcode1";
 
+    // MUST set a subscription, otherwise no msgs received
     // filtering works based on a first message bytes, seems there is no didicated "topic"
     rc = zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE, filter, strlen (filter));
     // rc = zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE, nullptr, 0); // subscribe to all

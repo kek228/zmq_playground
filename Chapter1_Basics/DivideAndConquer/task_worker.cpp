@@ -23,6 +23,8 @@ int main (void)
     zmq_connect (receiver, "tcp://localhost:5557");
 
     //  Socket to send messages to
+    // ZMQ_PUSH -> sends msgs to subscribers (ZMQ_PULLs) in round-robin fashion
+    // in contrast with a ZMQ_PUB/SUB
     void *sender = zmq_socket (context, ZMQ_PUSH);
     zmq_connect (sender, "tcp://localhost:5558");
 

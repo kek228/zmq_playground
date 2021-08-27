@@ -22,14 +22,16 @@ int main (void)
     zmq_bind (receiver, "tcp://*:5558");
 
     //  Wait for start of batch
-    char string [256];
-    zmq_recv (receiver, &string, sizeof(string), 0);
-
+    char buf [256];
+    zmq_recv (receiver, &buf, sizeof(buf), 0);
+    std::string startmsg(buf);
+    // weird way of sync
+    assert(startmsg == "ventilator started");
     //  Process 100 confirmations
     int total_time = 0;
      for (int task_nbr = 0; task_nbr < 100; task_nbr++) {
-        zmq_recv (receiver, &string, sizeof(string), 0);
-        total_time += std::strtol(string, nullptr, 10);
+        zmq_recv (receiver, &buf, sizeof(buf), 0);
+        total_time += std::strtol(buf, nullptr, 10);
     }
     std::cout<<"TOTAL TIME:" <<total_time<<std::endl;
     zmq_close (receiver);

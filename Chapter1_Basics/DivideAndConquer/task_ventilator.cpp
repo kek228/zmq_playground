@@ -30,7 +30,8 @@ int main (void)
     printf ("Sending tasks to workers...\n");
 
     //  The first message is "0" and signals start of batch
-    zmq_send (sink, "0", 1, 0);
+    char startmsg[] = "ventilator started";
+    zmq_send (sink, startmsg, sizeof(startmsg), 0);
     //  Initialize random number generator
     std::random_device dev;
     std::mt19937 rng(dev());

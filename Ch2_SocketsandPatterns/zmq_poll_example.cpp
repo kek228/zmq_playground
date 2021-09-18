@@ -1,13 +1,4 @@
-#include <zmq.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <assert.h>
-//
-#include <atomic>
-#include <iostream>
-#include <stdexcept>
-#include "../common/weater_struct.h"
+#include "common.h"
 
 std::atomic_bool stop;
 
@@ -23,9 +14,9 @@ int main ()
     zmq_connect (weather_sub, "tcp://localhost:5556");
     zmq_setsockopt (weather_sub, ZMQ_SUBSCRIBE, "zipcode1 ", 6);
 
-    zmq_pollitem_t items [] = {
-            { receiver,   0, ZMQ_POLLIN, 0 },
-            {weather_sub, 0, ZMQ_POLLIN, 0 }
+    std::vector<zmq_pollitem_t> items = {
+        { receiver,   0, ZMQ_POLLIN, 0 },
+        {weather_sub, 0, ZMQ_POLLIN, 0 }
     };
     //  Process messages from both sockets
     WeaterReport report;
@@ -33,7 +24,7 @@ int main ()
     while (!stop) {
         char msg [256];
 
-        zmq_poll (items, 2, -1);
+        zmq_poll (items.data(), 2, -1);
         if (items [0].revents & ZMQ_POLLIN) {
             int size = zmq_recv (receiver, msg, 255, 0);
             if (size != -1) {

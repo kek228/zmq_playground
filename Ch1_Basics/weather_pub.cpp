@@ -11,7 +11,7 @@
 #include <thread>
 #include <chrono>
 
-#include "../common/weater_struct.h"
+#include "../common/common.h"
 
 
 std::atomic_bool stop;

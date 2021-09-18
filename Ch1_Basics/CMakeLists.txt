@@ -10,11 +10,11 @@ target_link_libraries(hello_world_clnt zmq)
 
 ################## PUB/SUB example ##################
 # PUB
-add_executable(weather_pub weather_pub.cpp ../common/weater_struct.h)
+add_executable(weather_pub weather_pub.cpp ../common/common.h)
 target_link_libraries(weather_pub zmq)
 
 # SUB
-add_executable(weather_sub weather_sub.cpp ../common/weater_struct.h)
+add_executable(weather_sub weather_sub.cpp ../common/common.h)
 target_link_libraries(weather_sub zmq)
 
 ################## PUB/SUB example ##################

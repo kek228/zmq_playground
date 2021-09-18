@@ -20,18 +20,16 @@ int main (int argc, char *argv [])
     //  Socket to talk to server
     printf ("Collecting updates from weather server...\n");
     void *context = zmq_ctx_new ();
-    zmq_ctx_set (context, ZMQ_IO_THREADS, 4);
-    void *subscriber = zmq_socket (context, ZMQ_SUB);
-    int rc = zmq_connect (subscriber, "tcp://localhost:5556");
+    zmq_ctx_set (context, ZMQ_IO_THREADS, 1);
+    void *subscriber = zmq_socket (context, ZMQ_XSUB);
+    int rc = zmq_connect (subscriber, "tcp://localhost:10000");
     assert (rc == 0);
-
-    const char *filter = "zipcode1";
-
-    // MUST set a subscription, otherwise no msgs received
-    // filtering works based on a first message bytes, seems there is no didicated "topic"
-    rc = zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE, filter, strlen (filter));
-    // rc = zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE, nullptr, 0); // subscribe to all
-    assert (rc == 0);
+//    rc = zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE, filter, strlen (filter));
+//    assert (rc == 0);
+    const char sub_byte = 1;
+    zmq_send(subscriber, &sub_byte, sizeof(sub_byte), ZMQ_SNDMORE);
+    const std::string filter = "zipcode1";
+    zmq_send(subscriber, filter.data(), filter.size(), 0);
 
     //  Process 100 updates
     int update_nbr;

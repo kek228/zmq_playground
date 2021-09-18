@@ -10,7 +10,7 @@
 #include <random>
 
 //
-#include "weater_struct.h"
+#include "common/weater_struct.h"
 
 
 std::atomic_bool stop;
@@ -20,11 +20,11 @@ int main (int argc, char *argv [])
     //  Socket to talk to server
     printf ("Collecting updates from weather server...\n");
     void *context = zmq_ctx_new ();
+    zmq_ctx_set (context, ZMQ_IO_THREADS, 4);
     void *subscriber = zmq_socket (context, ZMQ_SUB);
     int rc = zmq_connect (subscriber, "tcp://localhost:5556");
     assert (rc == 0);
 
-    //  Subscribe to zipcode, default is NYC, 10001
     const char *filter = "zipcode1";
 
     // MUST set a subscription, otherwise no msgs received
@@ -43,7 +43,7 @@ int main (int argc, char *argv [])
         zmq_recv (subscriber, &report, sizeof(report), 0);
         std::string_view zipcode(report.zipcode, sizeof(report.zipcode));
         std::cout<<"zipcode: "<<zipcode<<std::endl; // uses string_view.size() not a null-terminator
-        std::cout<<"id: "<<report.temp <<" postcode: "<<report.postcode<<" type: "<<report.type<<std::endl;
+        std::cout<<"temp: "<<report.temp <<" postcode: "<<report.postcode<<" type: "<<report.type<<std::endl;
         total_temp += report.temp;
     }
     printf ("Average temperature for zipcode '%s' was %dF\n",

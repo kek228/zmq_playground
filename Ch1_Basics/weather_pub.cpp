@@ -8,12 +8,14 @@
 #include <iostream>
 #include <stdexcept>
 #include <random>
+#include <thread>
+#include <chrono>
 
-//
-#include "weater_struct.h"
+#include "../common/weater_struct.h"
 
 
 std::atomic_bool stop;
+using namespace std::chrono_literals;
 
 
 int main(void) {
@@ -44,6 +46,8 @@ int main(void) {
         report.temp = dist(rng);
         //  Send message to all subscribers
         zmq_send(publisher, &report, sizeof(WeaterReport), 0);
+        std::this_thread::sleep_for(1s);
+        std::cout<<"msg " << counter << " sent"<<std::endl;
     }
     zmq_close(publisher);
     zmq_ctx_destroy(context);

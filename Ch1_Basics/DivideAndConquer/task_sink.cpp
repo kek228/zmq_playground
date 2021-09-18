@@ -12,8 +12,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <random>
-std::atomic_bool stop;
-
+std::atomic_bool stop
 int main (void)
 {
     //  Prepare our context and socket
@@ -29,7 +28,7 @@ int main (void)
     assert(startmsg == "ventilator started");
     //  Process 100 confirmations
     int total_time = 0;
-     for (int task_nbr = 0; task_nbr < 100; task_nbr++) {
+    for (int task_nbr = 0; task_nbr < 100; task_nbr++) {
         zmq_recv (receiver, &buf, sizeof(buf), 0);
         total_time += std::strtol(buf, nullptr, 10);
     }

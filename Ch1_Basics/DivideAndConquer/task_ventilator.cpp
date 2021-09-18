@@ -12,6 +12,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <random>
+#include <thread>
+using namespace std::chrono_literals;
 
 int main (void)
 {
@@ -48,6 +50,8 @@ int main (void)
         char string [10];
         sprintf (string, "%d", workload);
         zmq_send (sender, string, strlen(string), 0);
+        std::this_thread::sleep_for(1s);
+
     }
     printf ("Total expected cost: %d msec\n", total_microsec);
 

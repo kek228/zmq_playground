@@ -11,7 +11,7 @@
 #include <thread>
 #include <chrono>
 
-#include "../common/common.h"
+#include "common.h"
 
 
 std::atomic_bool stop;

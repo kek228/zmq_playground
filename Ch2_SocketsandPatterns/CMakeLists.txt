@@ -8,5 +8,7 @@ target_link_libraries(zmq_xpub_example zmq)
 add_executable(zmq_xsub_example zmq_xsub_example.cpp)
 target_link_libraries(zmq_xsub_example zmq)
 
+add_executable(multithread_req_srv multithread_req_srv.cpp)
+target_link_libraries(multithread_req_srv zmq pthread)
 
 add_subdirectory(./router_dealer)

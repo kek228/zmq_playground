@@ -64,3 +64,10 @@ Good to know:
 ### Handling Multiple Sockets
 use zmq_poll()
 
+DEALER and ROUTER
+Needed only to create proxies between req/rep sockets
+
+### Handling Errors and ETERM
+The error code is provided in errno or zmq_errno().
+A descriptive error text for logging is provided by zmq_strerror().
+

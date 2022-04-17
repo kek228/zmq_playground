@@ -28,7 +28,7 @@ int main (int argc, char *argv [])
     const char *filter = "zipcode1";
 
     // MUST set a subscription, otherwise no msgs received
-    // filtering works based on a first message bytes, seems there is no didicated "topic"
+    // filtering works based on a first message bytes, seems there is no dedicated "topic"
     rc = zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE, filter, strlen (filter));
     // rc = zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE, nullptr, 0); // subscribe to all
     assert (rc == 0);
@@ -46,7 +46,7 @@ int main (int argc, char *argv [])
         std::cout<<"temp: "<<report.temp <<" postcode: "<<report.postcode<<" type: "<<report.type<<std::endl;
         total_temp += report.temp;
     }
-    printf ("Average temperature for zipcode '%s' was %dF\n",
+    printf("Average temperature for zipcode '%s' was %dF\n",
             filter, (int) (total_temp / update_nbr));
 
     zmq_close (subscriber);

@@ -26,3 +26,9 @@ target_link_libraries(task_worker zmq)
 
 add_executable(task_sink ./DivideAndConquer/task_sink.cpp)
 target_link_libraries(task_sink zmq)
+
+add_executable(string_pub string_pub.cpp)
+target_link_libraries(string_pub zmq)
+
+add_executable(string_sub string_sub.cpp)
+target_link_libraries(string_sub zmq)
